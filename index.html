@@ -1,50 +1,463 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+        <title>Creando una API Rest con DRF</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section data-background-color="#0C4B33">
+                    <h1>Creando una api RESTful con Django Rest Framework</h1>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>¿Que es una API?</h1>
+                    <ul>
+                        <li>Aplication Programming Interface.</li>
+                        <li>Permite comunicación entre componentes y sistemas.</li>
+                        <li>Una API basada en web es solo un ejemplo de una API.</li>
+                    </ul>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h2>¿Para que necesito una API?</h2>
+                    <ul>
+                        <li>Permite que otros sitios web/apps interactuen con tus datos.</li>
+                    </ul>
+                    <ul>
+                        <li>Construir apps mobile o para otros dispositivos utilizando tu producto core.</li>
+                        <ul>
+                            <li>Desarrollo de SPA (Single Page Applicatiions)</li>
+                            <li>Utilizar frameworks js modernos como Angular, Ember, Backbone, etc para el FrontEnd.</li>
+                        </ul>
+                    </ul>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>¿Que es una API REST?</h1>
+                    <h3>Representational State Transfer (REST)</h3>
+                    <li>Es un enfoque para crear web services.</li>
+                    <li>Es un modelo de arquitectura de software.</li>
+                    <li>Describe como debería comportarse la web.</li>
+                    <li>Se apoya en el uso de URI y HTTP.</li>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <section>
+                        <h1>Principios</h1>
+                        <ul>
+                            <li>Todo es un recurso representado por un formato.</li>
+                            <ul>
+                                <li>image/jpeg</li>
+                                <li>text/html</li>
+                                <li>text/xml</li>
+                                <li>...</li>
+                            </ul>
+                            <li>Cada recurso debe ser identificable por un identificador único accesible a través de URIs.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <ul>
+                            <li>Usa métodos HTTP estándar para representar acciones CRUD.</li>
+                                <ul>
+                                    <li>GET, POST, PUT/PATCH, DELETE.</li>
+                                </ul>
+                            <li>Los recursos puede tener múltiples representaciones.</li>
+                                <ul>
+                                    <li>Por ejemplo: un recurso xml puede tener una representación JSON.</li>
+                                </ul>
+                            <li>Comunicaciones stateless (sin estado).</li>
+                                <ul>
+                                    <li>Cada petición al servidor es tratada de modo totalmente independiente.</li>
+                                </ul>
+                        </ul>
+                    </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <section>
+                        <h1>Restricciones de REST</h1>
+                        <ul>
+                            <li>Protocolo cliente/servidor.</li>
+                            <li>Sin estado.</li>
+                            <li>Cacheable.</li>
+                            <li>Sistema de capas.</li>
+                            <li>Interfaz uniforme.</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Códigos de respuesta HTTP comunes</h3>
+                        <ul>
+                            <li><b>200</b> - OK</li>
+                            <li><b>201</b> - Created</li>
+                            <li><b>400</b> - Bad Request</li>
+                            <li><b>401</b> - Not Authorized</li>
+                            <li><b>404</b> - Not Fond</li>
+                            <li><b>500</b> - Server Error</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>¿Cómo se ven los endpoints?</h3>
+                        <h4>/api/users/</h4>
+                        <ul>
+                            <li>GET devuelve el listado de usuarios</li>
+                            <li>POST crea un usuario</li>
+                        </ul>
+                        <h4>/api/users/:id</h4>
+                        <ul>
+                            <li>GET devuelve un usuario</li>
+                            <li>PUT modifica un usuario</li>
+                            <li>DELETE elimina un usuario</li>
+                        </ul>
+                    </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <section>
+                        <h1>¿Como crear una API en Django?</h1>
+                    </section>
+                    <section data-background-image="https://az616578.vo.msecnd.net/files/2014/11/16/635517686285011592546178059_michaelscott54.gif" data-background-position="center">
+                        <h2>Hacerla desde cero</h2>
+                        <ul>
+                            <li>Versiones</li>
+                            <li>Serializar/Deserializar</li>
+                            <li>Límites</li>
+                            <li>Permisos</li>
+                            <li>...</li>
+                        </ul>
+                    </section>
+                    <section data-background-image="https://media.giphy.com/media/1Z02vuppxP1Pa/giphy.gif">
+                        <h2>No reinventar la rueda</h2>
+                        <ul>
+                            <li>Dejango Rest Framework</li>
+                            <li>Tastypie</li>
+                        </ul>
+                    </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <section>
+                        <h2>Django Rest Framework</h2>
+                        <img width="80%" src="https://ksr-ugc.imgix.net/assets/011/705/984/4ea78430d3ad7dc88106a7b973248ba7_original.jpg?w=1536&h=864&fit=fill&bg=FFFFFF&v=1463687041&auto=format&q=92&s=ccae73f0bcf205135f1d8e09f28259de">
+                    </section>
+                    <section>
+                        <h2>Django Rest Framework</h2>
+                        <ul>
+                            <li>Django App</li>
+                            <li>API Browser</li>
+                            <li>Buena documentación, gran soporte de la comunidad</li>
+                            <li>Desarrollo activo</li>
+                            <li>Configurable / Customizable</li>
+                            <li>Políticas de Autorización y Auntenticación</li>
+                            <li>Serialización que soporta data tanto de ORM como de fuentes no ORM</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Autenticación</h2>
+                        <ul>
+                            <li>Soporta autenticación por Token, Basic y Sesión</li>
+                            <li>Paquetes de la comunidad para Oauth, Oauth2, JSON Web token y otros</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Autorización</h2>
+                        <ul>
+                            <li>Permisos basados en el ORM</li>
+                            <li>Se pueden crear facilmente permisos custom por vistas</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Serialización</h2>
+                        <ul>
+                            <li>Serialización de objetos de Django/ORM out of the box</li>
+                            <li>Facil de customizar y extender los serializadores</li>
+                        </ul>
+                    </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>Creemos una API con DRF</h1>
+                </section>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+                <section>
+                <section data-background-color="#0C4B33">
+                    <p>Instalación</p>
+                    <section data-markdown>
+                        <script type="text/template">
+                        ```sh
+                        pip install django
+                        pip install djangorestframework
+                        pip install markdown  # Markdown support for the browsable API.
+                        pip install django-filter # Filtering support
+                        ```
+                        </script>
+                    </section>
+                    <p>settings.py</p>
+                    <pre>
+                        <code data-trim data-noescape>
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-		<script>
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				history: true,
+    'rest_framework',
+    ...
+]
 
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+}
+
+                        </code>
+                    <pre>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <p>todo/models.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+# -*- coding: utf-8 -*-
+from django.db import models
+from django.conf import settings
+from django.utils.encoding import smart_unicode
+
+
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return smart_unicode(self.nombre)
+
+    class Meta:
+        verbose_name_plural = u"Categorías"
+
+
+class Tarea(models.Model):
+    nombre = models.CharField(max_length=64)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL)
+    categorias = models.ManyToManyField(Categoria,
+        related_name="tareas")
+    hecha = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return smart_unicode(self.nombre)
+
+    class Meta:
+        verbose_name_plural = u"Tareas"
+
+                    </code>
+                    </pre>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <p>todo/serializers.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+# -*- coding: utf-8 -*-
+from rest_framework import serializers
+from .models import Categoria, Tarea
+
+
+class TareaListSerializer(serializers.ListSerializer):
+
+    def to_representation(self, data):
+        data = data.filter(usuario=self.context['request'].user)
+        return super(TareaListSerializer, self).to_representation(data)
+
+
+class TareaSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        'tarea-detail',
+        source='id',
+        read_only=True)
+
+    usuario = serializers.SlugRelatedField(
+        slug_field="username",
+        read_only=True,
+        default=serializers.CurrentUserDefault())
+
+    categorias = serializers.SlugRelatedField(
+        slug_field="nombre",
+        queryset=Categoria.objects.all(),
+        many=True)
+
+    class Meta:
+        model = Tarea
+        list_serializer_class = TareaListSerializer
+        fields = ('id', 'nombre', 'usuario',
+                  'categorias', 'hecha', 'url')
+
+
+class CategoriaSerializer(serializers.ModelSerializer):
+    tareas = TareaSerializer(many=True, read_only=True)
+
+    url = serializers.HyperlinkedIdentityField(
+        'categoria-detail',
+        source='id',
+        read_only=True)
+
+    class Meta:
+        model = Categoria
+        fields = ('id', 'nombre', 'url', 'tareas')
+                    </code>
+                    </pre>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <p>todo/views.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+# -*- coding: utf-8 -*-
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.filters import DjangoFilterBackend
+from .models import Categoria, Tarea
+from .serializers import CategoriaSerializer, TareaSerializer
+from .filters import TareaFilterSet
+
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+
+class TareaViewSet(viewsets.ModelViewSet):
+    serializer_class = TareaSerializer
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = TareaFilterSet
+
+    def get_queryset(self):
+        return Tarea.objects.filter(usuario=self.request.user)
+                    </code>
+                    </pre>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <p>todo/urls.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+# -*- coding: utf-8 -*-
+from django.conf.urls import url, include
+from rest_framework.routers import DefaultRouter
+from .views import CategoriaViewSet, TareaViewSet
+
+router = DefaultRouter()
+router.register(r'categoria', CategoriaViewSet)
+router.register(r'tarea', TareaViewSet, base_name="tarea")
+
+urlpatterns = [
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include(router.urls)),
+]
+                    </code>
+                    </pre>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <p>urls.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+# -*- coding: utf-8 -*-
+from django.conf.urls import url, include
+from django.contrib import admin
+
+import pyday2016.todo.urls
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include(pyday2016.todo.urls)),
+
+]
+                    </code>
+                    </pre>
+                </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>API Browser</h1>
+                    <h2>http://localhost:8000/api/</h2>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <section>
+                        <h2>Documentación</h2>
+                        <ul>
+                            <li>Django Rest Swagger: https://github.com/marcgibbons/django-rest-swagger</li>
+                            <li>Django Rest Framework Docs: https://github.com/manosim/django-rest-framework-docs</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Django Rest Framework Docs</h2>
+                        <p>Instalación</p>
+                        <section data-markdown>
+                        <script type="text/template">
+                        ```sh
+                        pip install drfdocs
+                        ```
+                        </script>
+                        </section>
+                        <p>settings.py</p>
+                        <pre>
+                    <code data-trim data-noescape>
+INSTALLED_APPS = [
+    ...
+
+    'rest_framework_docs',
+]
+                    </code>
+                    </pre>
+                    <p>urls.py</p>
+                    <pre>
+                    <code data-trim data-noescape>
+urlpatterns = [
+    ...
+    url(r'^docs/', include('rest_framework_docs.urls')),
+]
+                    </code>
+                    </pre>
+                    </section>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
 </html>
