@@ -27,6 +27,8 @@
                 <section data-background-color="#0C4B33">
                     <h1>Creando una api RESTful con Django Rest Framework</h1>
                 </section>
+
+                <!-- Que es API -->
                 <section data-background-color="#0C4B33">
                     <h1>¿Que es una API?</h1>
                     <ul>
@@ -35,67 +37,85 @@
                         <li>Una API basada en web es solo un ejemplo de una API.</li>
                     </ul>
                 </section>
-                <section data-background-color="#0C4B33">
-                    <h2>¿Para que necesito una API?</h2>
-                    <ul>
-                        <li>Permite que otros sitios web/apps interactuen con tus datos.</li>
-                    </ul>
-                    <ul>
-                        <li>Construir apps mobile o para otros dispositivos utilizando tu producto core.</li>
-                        <ul>
-                            <li>Desarrollo de SPA (Single Page Applicatiions)</li>
-                            <li>Utilizar frameworks js modernos como Angular, Ember, Backbone, etc para el FrontEnd.</li>
-                        </ul>
-                    </ul>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <h1>¿Que es una API REST?</h1>
-                    <h3>Representational State Transfer (REST)</h3>
-                    <li>Es un enfoque para crear web services.</li>
-                    <li>Es un modelo de arquitectura de software.</li>
-                    <li>Describe como debería comportarse la web.</li>
-                    <li>Se apoya en el uso de URI y HTTP.</li>
-                </section>
+
+                <!-- REST -->
                 <section data-background-color="#0C4B33">
                     <section>
-                        <h1>Principios</h1>
+                        <h1>¿Que es una API REST?</h1>
+                        <h3>Representational State Transfer (REST)</h3>
+                        <p>Es un tipo de arquitectura de desarrollo web que se apoya totalmente en el estándar HTTP.</p>
+                        <li>Es un enfoque para crear web services.</li>
+                        <li>Describe como debería comportarse la web.</li>
+                        <li>Se apoya en el uso de URI y HTTP.</li>
+                    </section>
+                    <section>
+                        <h2>¿Para que necesito una API REST?</h2>
+                        <ul>
+                            <li>Permite que otros sitios web/apps interactuen con tus datos.</li>
+                        </ul>
+                        <ul>
+                            <li>Construir apps mobile o para otros dispositivos utilizando tu producto core.</li>
+                            <ul>
+                                <li>Desarrollo de SPA (Single Page Applicatiions)</li>
+                                <li>Utilizar frameworks js modernos como Angular, Ember, Backbone, etc para el FrontEnd.</li>
+                            </ul>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Principios</h2>
                         <ul>
                             <li>Todo es un recurso representado por un formato.</li>
                             <ul>
-                                <li>image/jpeg</li>
-                                <li>text/html</li>
-                                <li>text/xml</li>
-                                <li>...</li>
+                                <li>image/jpeg, text/html, text/xml, ..</li>
                             </ul>
                             <li>Cada recurso debe ser identificable por un identificador único accesible a través de URIs.</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <ul>
-                            <li>Usa métodos HTTP estándar para representar acciones CRUD.</li>
-                                <ul>
-                                    <li>GET, POST, PUT/PATCH, DELETE.</li>
-                                </ul>
+                            <li>Usa métodos HTTP estándar para representar acciones CRUD. (GET, POST, PUT/PATCH, DELETE.)</li>
                             <li>Los recursos puede tener múltiples representaciones.</li>
-                                <ul>
-                                    <li>Por ejemplo: un recurso xml puede tener una representación JSON.</li>
-                                </ul>
                             <li>Comunicaciones stateless (sin estado).</li>
-                                <ul>
-                                    <li>Cada petición al servidor es tratada de modo totalmente independiente.</li>
-                                </ul>
+                            <ul>
+                                <li>Cada petición al servidor es tratada de modo totalmente independiente.</li>
+                            </ul> 
                         </ul>
                     </section>
-                </section>
-                <section data-background-color="#0C4B33">
                     <section>
-                        <h1>Restricciones de REST</h1>
+                        <h2>Uso correcto de URIs</h2>
                         <ul>
-                            <li>Protocolo cliente/servidor.</li>
-                            <li>Sin estado.</li>
-                            <li>Cacheable.</li>
-                            <li>Sistema de capas.</li>
-                            <li>Interfaz uniforme.</li>
+                            <li>Los nombres de URI no deben implicar una acción, por lo tanto debe evitarse usar verbos en ellos. Deben ser únicas, no debemos tener más de una URI para identificar un mismo recurso.</li>
+                            <ul>
+                                <li>Incorrecto: /facturas/234/editar</li>
+                                <li>Correcto: /facturas/234/</li>
+                            </ul>
+                            <li>Deben ser independiente de formato.</li>
+                            <ul>
+                                <li>Incorrecto: /facturas/234.pdf</li>
+                                <li>Correcto:  /facturas/234</li>
+                            </ul>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Uso correcto de URIs</h2>
+                        <ul>
+                            <li>Deben mantener una jerarquía lógica.</li>
+                            <ul>
+                                <li>Incorrecto:  /facturas/234/cliente/007</li>
+                                <li>Correcto:  /clientes/007/facturas/234</li>
+                            </ul>
+                            <li>Los filtrados de información de un recurso no se hacen en la URI.</li>
+                            <ul>
+                                <li>Incorrecto: /facturas/orden/desc/fecha-desde/2007/pagina/2</li>
+                                <li>Correcto: /facturas?fecha-desde=2007&orden=DESC&pagina=2</li>
+                            </ul>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Métodos</h3>
+                        <p>Para manipular los recursos, HTTP nos dota de los siguientes métodos con los cuales debemos operar</p>
+                        <ul>
+                            <li><b>GET:</b> Para consultar y leer recursos.</li>
+                            <li><b>POST:</b> Para crear recursos.</li>
+                            <li><b>PUT:</b> Para editar recursos.</li>
+                            <li><b>DELETE:</b> Para eliminar recursos.</li>
+                            <li><b>PATCH:</b> Para editar partes concretas de un recurso.</li>
                         </ul>
                     </section>
                     <section>
@@ -111,12 +131,12 @@
                     </section>
                     <section>
                         <h3>¿Cómo se ven los endpoints?</h3>
-                        <h4>/api/users/</h4>
+                        <h4 style="text-transform: lowercase;">/api/users/</h4>
                         <ul>
                             <li>GET devuelve el listado de usuarios</li>
                             <li>POST crea un usuario</li>
                         </ul>
-                        <h4>/api/users/:id</h4>
+                        <h4 style="text-transform: lowercase;">/api/users/:id</h4>
                         <ul>
                             <li>GET devuelve un usuario</li>
                             <li>PUT modifica un usuario</li>
@@ -124,6 +144,8 @@
                         </ul>
                     </section>
                 </section>
+
+                <!-- Como crear en Django -->
                 <section data-background-color="#0C4B33">
                     <section>
                         <h1>¿Como crear una API en Django?</h1>
@@ -133,8 +155,10 @@
                         <ul>
                             <li>Versiones</li>
                             <li>Serializar/Deserializar</li>
-                            <li>Límites</li>
+                            <li>Autenticación</li>
                             <li>Permisos</li>
+                            <li>Throttling</li>
+                            <li>Content negotiation</li>
                             <li>...</li>
                         </ul>
                     </section>
@@ -146,10 +170,12 @@
                         </ul>
                     </section>
                 </section>
+
+                <!-- DRF -->
                 <section data-background-color="#0C4B33">
                     <section>
                         <h2>Django Rest Framework</h2>
-                        <img width="80%" src="https://ksr-ugc.imgix.net/assets/011/705/984/4ea78430d3ad7dc88106a7b973248ba7_original.jpg?w=1536&h=864&fit=fill&bg=FFFFFF&v=1463687041&auto=format&q=92&s=ccae73f0bcf205135f1d8e09f28259de">
+                        <img width="80%" src="https://ksr-ugc.imgix.net/assets/011/705/984/4ea78430d3ad7dc88106a7b973248ba7_original.jpg?w=1536&h=864&fit=fill&bg=FFFFFF&v=1463687041&auto=format&q=92&s=ccae73f0bcf205135f1d8e09f28259de"/>
                     </section>
                     <section>
                         <h2>Django Rest Framework</h2>
@@ -186,25 +212,21 @@
                     </section>
                 </section>
                 <section data-background-color="#0C4B33">
-                    <h1>Creemos una API con DRF</h1>
-                </section>
-
-                <section>
-                <section data-background-color="#0C4B33">
-                    <p>Instalación</p>
-                    <section data-markdown>
-                        <script type="text/template">
-                        ```sh
-                        pip install django
-                        pip install djangorestframework
-                        pip install markdown  # Markdown support for the browsable API.
-                        pip install django-filter # Filtering support
-                        ```
-                        </script>
+                    <section>
+                        <p>Instalación</p>
+                        <pre>
+                            <code>
+pip install django
+pip install djangorestframework
+pip install markdown  # Markdown support for the browsable API.
+pip install django-filter # Filtering support
+                            </code>
+                        </pre>
                     </section>
-                    <p>settings.py</p>
-                    <pre>
-                        <code data-trim data-noescape>
+                    <section>
+                        <p>settings.py</p>
+                        <pre>
+                            <code>
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -230,14 +252,13 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     )
 }
-
-                        </code>
-                    <pre>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <p>todo/models.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <p>todo/models.py</p>
+                        <pre>
+                            <code>
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.conf import settings
@@ -266,14 +287,13 @@ class Tarea(models.Model):
 
     class Meta:
         verbose_name_plural = u"Tareas"
-
-                    </code>
-                    </pre>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <p>todo/serializers.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <p>todo/serializers.py</p>
+                        <pre>
+                            <code>
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from .models import Categoria, Tarea
@@ -297,16 +317,24 @@ class TareaSerializer(serializers.ModelSerializer):
         read_only=True,
         default=serializers.CurrentUserDefault())
 
-    categorias = serializers.SlugRelatedField(
-        slug_field="nombre",
+    categorias = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=False,
         queryset=Categoria.objects.all(),
-        many=True)
+        view_name='categoria-detail'
+    )
 
     class Meta:
         model = Tarea
         list_serializer_class = TareaListSerializer
         fields = ('id', 'nombre', 'usuario',
                   'categorias', 'hecha', 'url')
+
+    def validate_nombre(self, value):
+        if len(value) < 5:
+            raise serializers.ValidationError(
+                "Nombre debe contener mas de 5 caracteres")
+        return value
 
 
 class CategoriaSerializer(serializers.ModelSerializer):
@@ -320,13 +348,47 @@ class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = ('id', 'nombre', 'url', 'tareas')
-                    </code>
-                    </pre>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <p>todo/views.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h3>Ejemplo de resultado</h3>
+                        <pre>
+                            <code>
+{
+    "id": 5,
+    "nombre": "Hacer tutorial de la doc",
+    "usuario": "froldan",
+    "categorias": [
+        "http://127.0.0.1:8000/api/categoria/1/"
+    ],
+    "hecha": false,
+    "url": "http://127.0.0.1:8000/api/tarea/5/"
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h2>Views</h2>
+                        <p>DRF nos provee Views, Generic Views y Viewsets</p>
+                        <p>
+                            En este ejemplo vamos a usar <b>ModelViewSet</b>.<br>
+                            Nos permite combinar la lógica de views relacionadas en una sola clase
+                            que nos provee implementaciones para varias acciones:
+                        </p>
+                        <ul>
+                            <li>.list()</li>
+                            <li>.retrieve()</li>
+                            <li>.create()</li>
+                            <li>.update()</li>
+                            <li>.partial_update()</li>
+                            <li>.destroy()</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>todo/views.py</p>
+                        <pre>
+                            <code>
 # -*- coding: utf-8 -*-
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -353,13 +415,13 @@ class TareaViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Tarea.objects.filter(usuario=self.request.user)
-                    </code>
-                    </pre>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <p>todo/urls.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <p>todo/urls.py</p>
+                        <pre>
+                            <code>
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
@@ -373,13 +435,13 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include(router.urls)),
 ]
-                    </code>
-                    </pre>
-                </section>
-                <section data-background-color="#0C4B33">
-                    <p>urls.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <p>urls.py</p>
+                        <pre>
+                            <code>
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include
 from django.contrib import admin
@@ -391,14 +453,19 @@ urlpatterns = [
     url(r'^', include(pyday2016.todo.urls)),
 
 ]
-                    </code>
-                    </pre>
+                            </code>
+                        </pre>
+                    </section>
                 </section>
-                </section>
+                
+
+                <!-- API BROWSER -->
                 <section data-background-color="#0C4B33">
                     <h1>API Browser</h1>
-                    <h2>http://localhost:8000/api/</h2>
+                    <h2 style="text-transform: lowercase;">http://localhost:8000/api/</h2>
                 </section>
+
+                <!-- DOCS -->
                 <section data-background-color="#0C4B33">
                     <section>
                         <h2>Documentación</h2>
@@ -408,35 +475,35 @@ urlpatterns = [
                         </ul>
                     </section>
                     <section>
-                        <h2>Django Rest Framework Docs</h2>
+                        <h3>Django Rest Framework Docs</h3>
                         <p>Instalación</p>
-                        <section data-markdown>
-                        <script type="text/template">
-                        ```sh
-                        pip install drfdocs
-                        ```
-                        </script>
-                        </section>
+                        <pre>
+                            <code>
+pip install drfdocs
+                            </code>
+                        </pre>
                         <p>settings.py</p>
                         <pre>
-                    <code data-trim data-noescape>
+                            <code>
 INSTALLED_APPS = [
     ...
 
     'rest_framework_docs',
 ]
-                    </code>
-                    </pre>
-                    <p>urls.py</p>
-                    <pre>
-                    <code data-trim data-noescape>
+                            </code>
+                        </pre>
+                        
+                    </section>
+                    <section>
+                        <p>urls.py</p>
+                        <pre>
+                            <code>
 urlpatterns = [
     ...
     url(r'^docs/', include('rest_framework_docs.urls')),
 ]
-                    </code>
-                    </pre>
-                    </section>
+                            </code>
+                        </pre>
                     </section>
                 </section>
             </div>
