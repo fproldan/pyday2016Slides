@@ -26,6 +26,10 @@
             <div class="slides">
                 <section data-background-color="#0C4B33">
                     <h1>Creando una api RESTful con Django Rest Framework</h1>
+                    <small>
+                        <p>Francisco Roldán</p>
+                        <p>franciscoproldan@gmail.com</p>
+                    </small>
                 </section>
 
                 <!-- Que es API -->
@@ -66,6 +70,9 @@
                                 <li>Utilizar frameworks js modernos como Angular, Ember, Backbone, etc para el FrontEnd.</li>
                             </ul>
                         </ul>
+                    </section>
+                    <section>
+                        <img src="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/00/56/73/2318.WithAPIArchitecture.PNG"/>
                     </section>
                     <section>
                         <h2>Principios</h2>
@@ -373,6 +380,32 @@ class CategoriaSerializer(serializers.ModelSerializer):
                         </pre>
                     </section>
                     <section>
+                        <p>todo/filters.py</p>
+                        <pre>
+                            <code>
+import django_filters
+from django.contrib.auth import get_user_model
+from .models import Tarea, Categoria
+
+
+class TareaFilterSet(django_filters.FilterSet):
+
+    usuario = django_filters.ModelChoiceFilter(
+        to_field_name="username",
+        queryset=get_user_model().objects.all())
+
+    categorias = django_filters.ModelMultipleChoiceFilter(
+        to_field_name="nombre",
+        queryset=Categoria.objects.all())
+
+    class Meta:
+        model = Tarea
+        fields = ('hecha', 'usuario', 'categorias')
+
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
                         <h2>Views</h2>
                         <p>DRF nos provee Views, Generic Views y Viewsets</p>
                         <p>
@@ -509,6 +542,23 @@ urlpatterns = [
                             </code>
                         </pre>
                     </section>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>Docs</h1>
+                    <h2 style="text-transform: lowercase;">http://localhost:8000/docs/</h2>
+                </section>
+                 <section data-background-color="#0C4B33">
+                    <h3>Sliders</h3>
+                    <p>https://fproldan.github.io/pyday2016Slides/#/</p>
+                    <h3>Código</h3>
+                    <p>https://github.com/fproldan/pyday2016</p>
+                </section>
+                <section data-background-color="#0C4B33">
+                    <h1>Gracias!</h1>
+                    <small>
+                        <p>Francisco Roldán</p>
+                        <p>franciscoproldan@gmail.com</p>
+                    </small>
                 </section>
             </div>
         </div>
